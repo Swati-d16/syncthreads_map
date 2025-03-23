@@ -1,0 +1,56 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.about-section {
+    flex: 1;
+    text-align: left;
+    padding: 10px;
+}
+.image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+   
+}
+
+.welcome-section h2 {
+    color: green;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
