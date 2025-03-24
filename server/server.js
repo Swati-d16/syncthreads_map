@@ -10,7 +10,7 @@ app.use(express.json());
 
 // CORS configuration for development
 app.use(cors({
-    origin: ["http://localhost:5173", "https://syncthreads-map-8yrx.vercel.app"], // Allow all origins in development
+    origin: ["http://localhost:5173", "https://syncthreads-map-ux93.vercel.app"], // Allow all origins in development
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false // Disable credentials for development
@@ -59,4 +59,5 @@ app.use("/api", require("./routes/dashboardRoutes"));
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(` Server running at http://localhost:${PORT}`));
+
 

@@ -18,7 +18,7 @@ const Dashboard = () => {
 
         const fetchDashboardData = async () => {
             try {
-                const response = await fetch("https://syncthreads-map-8yrx.vercel.app/api/dashboard", {
+                const response = await fetch("https://syncthreads-map-ux93.vercel.app/api/dashboard", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`, //  Send token
