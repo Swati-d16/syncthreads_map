@@ -8,24 +8,12 @@ const bcrypt = require("bcryptjs");
 const app = express();
 app.use(express.json());
 
-
-//  CORS Configuration for Production & Development
-const allowedOrigins = [
-    "http://localhost:5173", // Development
-    "https://syncthreads-aep00i8gg-d-swatis-projects.vercel.app" // ✅ Production Frontend
-];
-
+// CORS configuration for development
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true 
+    origin: true ,// Allow all origins in development
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: false // Disable credentials for development
 }));
 
 app.use(cookieParser());
@@ -68,6 +56,7 @@ mongoose.connection.once("open", addDefaultUser);
 app.use("/api", require("./routes/authRoutes"));
 app.use("/api", require("./routes/dashboardRoutes"));
 
-// Export the app for Vercel
-module.exports = app;
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(` Server running at http://localhost:${PORT}`));
 
