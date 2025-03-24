@@ -10,7 +10,7 @@ app.use(express.json());
 
 // CORS configuration for development
 app.use(cors({
-    origin: true ,// Allow all origins in development
+    origin: ["http://localhost:5173", "https://syncthreads-map-8yrx.vercel.app"], // Allow all origins in development
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false // Disable credentials for development
