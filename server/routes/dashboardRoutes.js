@@ -19,7 +19,7 @@ router.get('/dashboard', authMiddleware, (req, res) => {
     try {
         res.json({
             message: 'Login successful',
-            username: req.user?.username || "Guest", // Prevent errors if user is missing
+            username: req.user?.username || "Swati", // Prevent errors if user is missing
             dashboardData: {
                 about: "This is the dashboard section where you can access various features.",
                 imageUrl: "https://via.placeholder.com/150"

@@ -1,24 +1,50 @@
+/* Dashboard container */
+
 .dashboard-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 20px;
+    margin: auto;
+    padding: 20px;
 }
 
-.card {
+/* Header with logout button */
+.dashboard-header {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Ensures better alignment on smaller screens */
+}
+
+.logout-button {
+    padding: 10px 15px;
+    background-color: #667eea;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #667eea;
+}
+
+/* Card styling */
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: #fff;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Adjusts layout for smaller screens */
 }
-
 .about-section {
     flex: 1;
     text-align: left;
@@ -31,26 +57,82 @@
     align-items: center;
 }
 .image-section img {
-    max-width: 100%;
+    max-width: 418px;
     height: auto;
     border-radius: 10px;
    
 }
 
-.welcome-section h2 {
-    color: green;
+/* Map card */
+.map-card {
+    text-align: center;
+    
 }
-
-button {
+.card-2{
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+} 
+.map-card h3{
+    color: rgb(33, 117, 33);
+}
+.map-card button {
+    margin-top: 10px;
     padding: 10px 15px;
-    background-color: #007bff;
+    background: #667eea;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 10px;
+    transition: 0.3s;
 }
 
-button:hover {
-    background-color: #0056b3;
+.map-card button:hover {
+    background: #5648a1;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .card {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .about-section,
+    .image-section {
+        width: 100%;
+        text-align: center;
+    }
+
+    .image-section img {
+        max-width: 90%;
+    }
+
+    .logout-button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .map-card {
+        padding: 15px;
+    }
+
+    .card-2 {
+        padding: 15px;
+    }
 }

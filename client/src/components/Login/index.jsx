@@ -10,11 +10,11 @@ const Login = () => {
   const [showSubmitError, setShowSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const navigate = useNavigate(); // ✅ useNavigate Hook
+  const navigate = useNavigate(); // useNavigate Hook
 
   const onSubmitSuccess = (token) => {
     Cookies.set("jwt_token", token, { expires: 30, path: "/" });
-    navigate("/dashboard"); // ✅ Redirect after login success
+    navigate("/dashboard"); // Redirect after login success
   };
 
   const onSubmitFailure = (message) => {
