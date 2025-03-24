@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Cookies from "js-cookie"; // Import Cookies
 import "./index.css";
 
 const Dashboard = () => {
@@ -10,46 +8,54 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = Cookies.get("jwt_token"); // ✅ Get token from Cookies
+        const token = localStorage.getItem("jwt_token"); // Get token from localStorage
 
         if (!token) {
-            setMessage("User not logged in");
+            alert("Unauthorized! Please login.");
+            navigate("/login");
             return;
         }
 
-        axios.get("http://localhost:5000/api/dashboard", {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        .then(res => {
-            setMessage(res.data.message);
-            setUsername(res.data.username);
-        })
-        .catch(error => {
-            console.error("API Error:", error);
+        const fetchDashboardData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/dashboard", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`, // ✅ Send token
+                    },
+                });
 
-            if (error.response && error.response.status === 401) {
-                Cookies.remove("jwt_token"); // ✅ Remove invalid token
-                navigate("/login");
-            } else {
+                if (response.ok) {
+                    const data = await response.json();
+                    setMessage(data.message);
+                    setUsername(data.username);
+                } else {
+                    alert("Unauthorized! Please login again.");
+                    localStorage.removeItem("jwt_token"); //  Remove invalid token
+                    navigate("/login"); // Redirect
+                }
+            } catch (error) {
+                console.error("Error fetching dashboard:", error);
                 setMessage("Error loading dashboard");
             }
-        });
+        };
+
+        fetchDashboardData();
     }, [navigate]);
 
     // Logout Function
     const handleLogout = () => {
-        Cookies.remove("jwt_token");
+        localStorage.removeItem("jwt_token");
         navigate("/login");
     };
 
     return (
-        
         <div className="dashboard-container">
             {/* Logout Button & Welcome Message */}
             <div className="dashboard-header">
                 {message === "Login successful" ? (
                     <>
-                        <h2>Welcome, Swati!</h2>
+                        <h2>Welcome, {username}!</h2>
                         <button className="logout-button" onClick={handleLogout}>Logout</button>
                     </>
                 ) : (
@@ -72,7 +78,7 @@ const Dashboard = () => {
 
             {/* New Card for Map Navigation */}
             {message === "Login successful" && (
-                <div className=" card-2 map-card">
+                <div className="card-2 map-card">
                     <h3>You can view your current location with ease using our interactive map feature. Simply click the button below to access the map and navigate seamlessly to your precise geographical coordinates.</h3>
                     <button onClick={() => navigate('/map')}>Go to Map</button>
                 </div>

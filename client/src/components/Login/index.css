@@ -34,7 +34,7 @@
 /* Form container */
 .form-container {
     width: 100%;
-    max-width: 400px; /* Slightly larger width */
+    max-width: 290px;; /* Slightly larger width */
     background: white;
     padding: 40px;
     border-radius: 12px;
@@ -78,6 +78,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    margin: 10px;
 }
 
 /* Button hover effect */

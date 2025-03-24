@@ -1,56 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import axios from "axios";
 import "./index.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showSubmitError, setShowSubmitError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate(); // useNavigate Hook
+  const navigate = useNavigate();
 
-  const onSubmitSuccess = (token) => {
-    Cookies.set("jwt_token", token, { expires: 30, path: "/" });
-    navigate("/dashboard"); // Redirect after login success
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("jwt_token");
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
-  const onSubmitFailure = (message) => {
-    setShowSubmitError(true);
-    setErrorMsg(message);
-  };
-
-  const submitForm = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/login",
-        { username, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-      if (response.data && response.data.token) {
-        onSubmitSuccess(response.data.token);
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("jwt_token", data.token); // Save token in localStorage
+        alert("Login Successful");
+        navigate("/dashboard"); // Redirect to Dashboard
       } else {
-        onSubmitFailure("Invalid response from server");
+        setErrorMsg(data.message || "Login failed. Please try again.");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      const errorMessage =
-        error.code === "ERR_NETWORK"
-          ? "Unable to connect to server. Please check if the server is running."
-          : error.response
-          ? error.response.data?.error || `Error: ${error.response.status}`
-          : "Login failed. Please try again.";
-      onSubmitFailure(errorMessage);
+      console.error("Login Error:", error);
+      setErrorMsg("Something went wrong. Please check your connection.");
     }
+    setLoading(false);
   };
 
   return (
@@ -67,7 +60,7 @@ const Login = () => {
             className="login-website-logo"
             alt="website logo"
           />
-          <form className="form-container" onSubmit={submitForm}>
+          <form className="form-container" onSubmit={handleLogin}>
             <div className="input-container">
               <label className="input-label" htmlFor="username">
                 USERNAME
@@ -78,6 +71,7 @@ const Login = () => {
                 className="input-field"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                required
               />
             </div>
             <div className="input-container">
@@ -90,12 +84,13 @@ const Login = () => {
                 className="input-field"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
-            <button type="submit" className="login-button">
-              Login
+            <button type="submit" className="login-button" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </button>
-            {showSubmitError && <p className="error-message">*{errorMsg}</p>}
+            {errorMsg && <p className="error-message">*{errorMsg}</p>}
           </form>
         </div>
       </div>
