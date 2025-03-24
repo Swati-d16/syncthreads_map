@@ -10,7 +10,7 @@ app.use(express.json());
 
 // CORS configuration for development
 app.use(cors({
-    origin: 'http://localhost:5173' ,// Allow all origins in development
+    origin: 'https://localhost:5173' ,// Allow all origins in development
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false // Disable credentials for development
